@@ -1,0 +1,1129 @@
+ index.html <!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convergence Partners - AI-Driven Investment Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/chart.js" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --cp-orange: #FF6B35;
+            --cp-gray: #2D2D2D;
+            --cp-black: #1A1A1A;
+            --cp-white: #FFFFFF;
+            --cp-light-gray: #F5F5F5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--cp-white);
+            color: var(--cp-black);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background: linear-gradient(135deg, var(--cp-orange), var(--cp-gray));
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 200px;
+            filter: brightness(0) invert(1);
+        }
+
+        .desktop-nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .desktop-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .desktop-nav a:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
+            color: white;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26,26,26,0.7);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Portal Sections */
+        .portal-section {
+            padding: 2rem 5%;
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Investor Portal */
+        .trading-platform {
+            background: var(--cp-light-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .token-balance {
+            font-size: 1.5rem;
+            color: var(--cp-orange);
+            margin-bottom: 1rem;
+        }
+
+        #tradeForm {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        #tradeForm input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #tradeForm button {
+            background: var(--cp-orange);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #tradeStatus {
+            margin-top: 1rem;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+            height: 400px;
+        }
+
+        /* Investee Portal */
+        .document-upload {
+            border: 2px dashed #ccc;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s;
+        }
+
+        .document-upload:hover {
+            border-color: var(--cp-orange);
+        }
+
+        .analysis-results {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+        }
+
+        .metric .value {
+            font-weight: bold;
+        }
+
+        .metric .value.high-risk {
+            color: #cc0000;
+        }
+
+        /* Internal Platform */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .deal-pipeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+
+        .stage {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: var(--cp-light-gray);
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .stage::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 20px;
+            height: 2px;
+            background: var(--cp-gray);
+        }
+
+        .stage:last-child::after {
+            display: none;
+        }
+
+        .deal-list {
+            margin-top: 1rem;
+        }
+
+        .deal-item {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .deal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .deal-stage {
+            background: var(--cp-orange);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        .deal-progress {
+            height: 5px;
+            background: #eee;
+            border-radius: 3px;
+            margin: 0.5rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--cp-orange);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .deal-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .action {
+            background: none;
+            border: 1px solid var(--cp-orange);
+            color: var(--cp-orange);
+            padding: 0.3rem 0.8rem;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action:hover {
+            background: var(--cp-orange);
+            color: white;
+        }
+
+        .vdr-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .vdr-file {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--cp-light-gray);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .vdr-file:hover {
+            background: #e0e0e0;
+        }
+
+        .file-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .file-status {
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Partner Portal */
+        .partner-chat {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .discussion-threads {
+            margin-top: 1.5rem;
+        }
+
+        .thread {
+            margin-bottom: 2rem;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .thread h4 {
+            margin-bottom: 1rem;
+            color: var(--cp-gray);
+        }
+
+        .thread-messages {
+            height: 200px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--cp-light-gray);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .message-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .message-input button {
+            background: var(--cp-orange);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Chatbot */
+        .chat-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: var(--cp-orange);
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f8f8;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background: var(--cp-orange);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-message.document-ref {
+            border-left: 3px solid var(--cp-orange);
+            padding-left: 10px;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: var(--cp-gray);
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal input, .modal select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            background: var(--cp-orange);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .chat-window {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <img src="convergence-logo.png" alt="Convergence Partners" class="logo">
+        <nav class="desktop-nav">
+            <a href="#publicContent" onclick="showSection('publicContent')">Home</a>
+            <a href="#investorPortal" onclick="showSection('investorPortal')">Investor Portal</a>
+            <a href="#investeePortal" onclick="showSection('investeePortal')">Investee Portal</a>
+            <a href="#internalPortal" onclick="showSection('internalPortal')">Internal</a>
+            <a href="#partnerPortal" onclick="showSection('partnerPortal')">Partners</a>
+        </nav>
+        <button class="mobile-menu" onclick="toggleMobileMenu()">☰</button>
+    </header>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <select id="userType">
+                    <option value="investor">Investor</option>
+                    <option value="investee">Investee</option>
+                    <option value="staff">Staff</option>
+                    <option value="partner">Partner</option>
+                </select>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Public Content -->
+    <section id="publicContent" class="visible">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Shaping Africa's Tech Future</h1>
+                <p>Convergence Partners: Where Innovation Meets Investment</p>
+                <button onclick="document.getElementById('loginModal').style.display='flex'" 
+                        style="background: var(--cp-orange); color: white; border: none; padding: 1rem 2rem; border-radius: 5px; cursor: pointer; font-size: 1.1rem;">
+                    Get Started
+                </button>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section style="padding: 4rem 5%;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">About Us</h2>
+            <p style="max-width: 800px; margin: 0 auto; text-align: center;">
+                Convergence Partners is a leading investment firm focused on technology infrastructure 
+                and services across Africa. With decades of experience, we've helped shape the digital 
+                landscape of the continent.
+            </p>
+        </section>
+
+        <!-- Team Section -->
+        <section style="padding: 4rem 5%; background: var(--cp-light-gray);">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Our Team</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <img src="team1.jpg" alt="Team Member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>John Doe</h3>
+                    <p>CEO</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="team2.jpg" alt="Team Member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Jane Smith</h3>
+                    <p>CTO</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="team3.jpg" alt="Team Member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3>Michael Johnson</h3>
+                    <p>Investment Director</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investee Companies -->
+        <section style="padding: 4rem 5%;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Our Portfolio</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                <div style="border: 1px solid #eee; border-radius: 10px; padding: 1.5rem; text-align: center;">
+                    <h3>Tech Innovators</h3>
+                    <p>AI-powered solutions for healthcare</p>
+                </div>
+                <div style="border: 1px solid #eee; border-radius: 10px; padding: 1.5rem; text-align: center;">
+                    <h3>Data Systems</h3>
+                    <p>Cloud infrastructure for African businesses</p>
+                </div>
+                <div style="border: 1px solid #eee; border-radius: 10px; padding: 1.5rem; text-align: center;">
+                    <h3>FinTech Solutions</h3>
+                    <p>Mobile payment platforms</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section style="padding: 4rem 5%; background: var(--cp-light-gray);">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Contact Us</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p>Email: info@convergencepartners.com</p>
+                <p>Phone: +27 11 123 4567</p>
+                <p>Address: 123 Business Street, Johannesburg, South Africa</p>
+                <div style="margin-top: 2rem;">
+                    <a href="#" style="margin: 0 10px; color: var(--cp-orange); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" style="margin: 0 10px; color: var(--cp-orange); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="margin: 0 10px; color: var(--cp-orange); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Investor Portal -->
+    <section id="investorPortal" class="portal-section">
+        <div class="section-header">
+            <h2>Investor Portal</h2>
+            <p>Access your investment information and manage your portfolio</p>
+        </div>
+        
+        <div class="trading-platform">
+            <div class="token-balance">Current Balance: <span id="tokenBalance">1,250</span> CP Tokens</div>
+            <form id="tradeForm">
+                <input type="number" id="tradeAmount" placeholder="Amount to trade" min="1">
+                <button type="submit">Execute Trade</button>
+            </form>
+            <div id="tradeStatus"></div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="performanceChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Recent Reports</h3>
+            <div id="recentReports">
+                <div style="padding: 1rem; border-bottom: 1px solid #eee;">
+                    <h4>Q3 2024 Report</h4>
+                    <p>Published: October 15, 2024</p>
+                    <button class="action">Download</button>
+                </div>
+                <div style="padding: 1rem; border-bottom: 1px solid #eee;">
+                    <h4>Annual Financial Statement 2023</h4>
+                    <p>Published: January 31, 2024</p>
+                    <button class="action">Download</button>
+                </div>
+                <div style="padding: 1rem;">
+                    <h4>Investor Update - November 2024</h4>
+                    <p>Published: November 5, 2024</p>
+                    <button class="action">Download</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investee Portal -->
+    <section id="investeePortal" class="portal-section">
+        <div class="section-header">
+            <h2>Investee Portal</h2>
+            <p>Submit your financial information and view analysis</p>
+        </div>
+        
+        <div class="document-upload" id="dropZone">
+            <p><i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 1rem;"></i></p>
+            <p>Drag & drop financial documents here</p>
+            <input type="file" id="fileInput" hidden accept=".pdf,.xlsx,.docx">
+        </div>
+        
+        <div class="analysis-results" id="analysisResults">
+            <p>Upload a document to see AI-powered analysis</p>
+        </div>
+    </section>
+
+    <!-- Internal Platform -->
+    <section id="internalPortal" class="portal-section">
+        <div class="section-header">
+            <h2>Internal Platform</h2>
+            <p>Deal management and team collaboration</p>
+        </div>
+        
+        <div class="dashboard">
+            <!-- Deal Management -->
+            <div class="card">
+                <h3>Active Deals</h3>
+                <div class="deal-pipeline">
+                    <div class="stage" data-stage="Prospecting">3</div>
+                    <div class="stage" data-stage="Due Diligence">2</div>
+                    <div class="stage" data-stage="Investment Committee">1</div>
+                    <div class="stage" data-stage="Board Approval">0</div>
+                </div>
+                <div id="dealList" class="deal-list">
+                    <div class="deal-item" data-deal-id="1">
+                        <div class="deal-header">
+                            <h4>Tech Innovators</h4>
+                            <span class="deal-stage">Prospecting</span>
+                        </div>
+                        <div class="deal-progress">
+                            <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div class="deal-actions">
+                            <button class="action" data-action="view">View</button>
+                            <button class="action" data-action="update">Update</button>
+                            <button class="action" data-action="docs">Documents</button>
+                        </div>
+                    </div>
+                    <div class="deal-item" data-deal-id="2">
+                        <div class="deal-header">
+                            <h4>Data Systems</h4>
+                            <span class="deal-stage">Due Diligence</span>
+                        </div>
+                        <div class="deal-progress">
+                            <div class="progress-bar" style="width: 60%"></div>
+                        </div>
+                        <div class="deal-actions">
+                            <button class="action" data-action="view">View</button>
+                            <button class="action" data-action="update">Update</button>
+                            <button class="action" data-action="docs">Documents</button>
+                        </div>
+                    </div>
+                    <div class="deal-item" data-deal-id="3">
+                        <div class="deal-header">
+                            <h4>FinTech Solutions</h4>
+                            <span class="deal-stage">Investment Committee</span>
+                        </div>
+                        <div class="deal-progress">
+                            <div class="progress-bar" style="width: 85%"></div>
+                        </div>
+                        <div class="deal-actions">
+                            <button class="action" data-action="view">View</button>
+                            <button class="action" data-action="update">Update</button>
+                            <button class="action" data-action="docs">Documents</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virtual Data Room -->
+            <div class="card">
+                <h3>Virtual Data Room</h3>
+                <div class="vdr-container">
+                    <div class="vdr-file" data-file="financials-2024Q3.pdf">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">Financials Q3 2024</span>
+                        <span class="file-status">Accessed 3 days ago</span>
+                    </div>
+                    <div class="vdr-file" data-file="market-analysis.docx">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">Market Analysis</span>
+                        <span class="file-status">New</span>
+                    </div>
+                    <div class="vdr-file" data-file="due-diligence-checklist.pdf">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">Due Diligence Checklist</span>
+                        <span class="file-status">Updated yesterday</span>
+                    </div>
+                    <div class="vdr-file" data-file="investment-memo.pdf">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">Investment Memorandum</span>
+                        <span class="file-status">Confidential</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Portal -->
+    <section id="partnerPortal" class="portal-section">
+        <div class="section-header">
+            <h2>Partner Portal</h2>
+            <p>Private discussions and strategy</p>
+        </div>
+        
+        <div class="partner-chat">
+            <h3>Partner Discussions</h3>
+            <div class="discussion-threads">
+                <div class="thread">
+                    <h4>AI Investment Opportunities in East Africa</h4>
+                    <div class="thread-messages" id="thread1">
+                        <div style="margin-bottom: 10px;">
+                            <div style="background: var(--cp-orange); color: white; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0;">
+                                I've identified three promising AI startups in Kenya that we should consider for investment.
+                            </div>
+                            <small style="color: #666; margin-left: 10px;">Partner A - 2 days ago</small>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div style="background: #e0e0e0; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0 auto;">
+                                I've reviewed their financials. The market potential looks significant, especially in agricultural AI applications.
+                            </div>
+                            <small style="color: #666; margin-right: 10px; text-align: right; display: block;">Partner B - 1 day ago</small>
+                        </div>
+                    </div>
+                    <div class="message-input">
+                        <input type="text" placeholder="Add your thoughts..." id="messageInput1">
+                        <button onclick="postMessage(1)">Post</button>
+                    </div>
+                </div>
+                <div class="thread">
+                    <h4>Portfolio Company Performance Review</h4>
+                    <div class="thread-messages" id="thread2">
+                        <div style="margin-bottom: 10px;">
+                            <div style="background: var(--cp-orange); color: white; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0;">
+                                We need to discuss the Q3 performance of our portfolio companies. Some are underperforming expectations.
+                            </div>
+                            <small style="color: #666; margin-left: 10px;">Partner C - 3 days ago</small>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div style="background: #e0e0e0; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0 auto;">
+                                Agreed. Especially the tech infrastructure investments need attention. Let's schedule a meeting.
+                            </div>
+                            <small style="color: #666; margin-right: 10px; text-align: right; display: block;">Partner D - 2 days ago</small>
+                        </div>
+                    </div>
+                    <div class="message-input">
+                        <input type="text" placeholder="Add your thoughts..." id="messageInput2">
+                        <button onclick="postMessage(2)">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Chatbot -->
+    <button class="chatbot-btn" onclick="toggleChat()">💬 AI Assistant</button>
+    
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>AI Investment Assistant</span>
+            <button onclick="toggleChat()" style="background: none; border: none; color: white;">✕</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div style="margin-bottom: 15px;">
+                <div style="background: var(--cp-orange); color: white; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0;">Hello! I'm your AI assistant. How can I help you today?</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <div id="documentContext" style="display: none;">
+            <small>Reference: <span id="docName"></span></small>
+        </div>
+    </div>
+
+    <script>
+        // Authentication System
+        let currentUser = null;
+        const validCredentials = {
+            investor: { email: "investor@convergence.com", password: "Investor123!" },
+            investee: { email: "investee@convergence.com", password: "Investee123!" },
+            staff: { email: "staff@convergence.com", password: "Staff123!" },
+            partner: { email: "partner@convergence.com", password: "Partner123!" }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target[0].value;
+            const password = e.target[1].value;
+            const userType = e.target[2].value;
+
+            // Simple authentication check
+            if(email === validCredentials[userType].email && 
+               password === validCredentials[userType].password) {
+                currentUser = {
+                    type: userType,
+                    token: "fake-jwt-token-" + userType
+                };
+                
+                // Show appropriate portal
+                showSection(userType === 'investor' ? 'investorPortal' : 
+                          userType === 'investee' ? 'investeePortal' : 
+                          userType === 'staff' ? 'internalPortal' : 'partnerPortal');
+                
+                // Close modal
+                document.getElementById('loginModal').style.display = 'none';
+                
+                // Initialize features based on user type
+                if(userType === 'investor') {
+                    initPerformanceChart();
+                }
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+
+        // Show/Hide Sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('visible');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('visible');
+            
+            // Update URL hash
+            window.location.hash = sectionId;
+        }
+
+        // Mobile Navigation
+        function toggleMobileMenu() {
+            document.querySelector('.desktop-nav').classList.toggle('visible');
+        }
+
+        // Investor Portal - Trading Platform
+        document.getElementById('tradeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = document.getElementById('tradeAmount').value;
+            const status = document.getElementById('tradeStatus');
+            
+            // Simulated blockchain transaction
+            status.innerHTML = `
+                <div style="animation: pulse 1s infinite">
+                    Processing tokenized trade of ${amount} units...
+                </div>
+            `;
+            
+            setTimeout(() => {
+                const currentBalance = parseInt(document.getElementById('tokenBalance').textContent.replace(',', ''));
+                const newBalance = currentBalance + parseInt(amount);
+                document.getElementById('tokenBalance').textContent = newBalance.toLocaleString();
+                
+                status.innerHTML = `
+                    <div class="token-balance">
+                        Trade executed! New balance: ${newBalance.toLocaleString()} CP Tokens
+                    </div>
+                    <small>Transaction hash: 0x${Math.random().toString(36).substr(2, 9)}</small>
+                `;
+            }, 2000);
+        });
+
+        // Investee Portal - Document Analysis
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        let currentDocument = null;
+
+        // Drag & drop handlers
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--cp-orange)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        function handleFile(file) {
+            currentDocument = file;
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Simulated AI analysis
+                document.getElementById('analysisResults').innerHTML = `
+                    <h4>Analyzing: ${file.name}</h4>
+                    <progress value="70" max="100"></progress> 70% complete
+                    <div style="margin-top: 1rem">
+                        <h5>AI Insights:</h5>
+                        <ul>
+                            <li>Detected 12% YoY revenue growth</li>
+                            <li>Identified 3 potential cost optimization areas</li>
+                            <li>Risk score: Medium (4.2/10)</li>
+                        </ul>
+                    </div>
+                `;
+                
+                // Update chatbot context
+                document.getElementById('docName').textContent = file.name;
+                document.getElementById('documentContext').style.display = 'block';
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // Data Visualization
+        function initPerformanceChart() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js not loaded');
+                return;
+            }
+            
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Fund Performance (%)',
+                        data: [5, 8, 12, 15],
+                        borderColor: 'var(--cp-orange)',
+                        tension: 0.4
+                    }, {
+                        label: 'Benchmark',
+                        data: [4, 6, 8, 10],
+                        borderColor: 'var(--cp-gray)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // Partner Portal - Discussion Threads
+        function postMessage(threadId) {
+            const input = document.getElementById(`messageInput${threadId}`);
+            const message = input.value.trim();
+            
+            if(message) {
+                const thread = document.getElementById(`thread${threadId}`);
+                
+                // Add message to thread
+                const messageDiv = document.createElement('div');
+                messageDiv.style.marginBottom = '10px';
+                messageDiv.innerHTML = `
+                    <div style="background: var(--cp-orange); color: white; padding: 10px; border-radius: 10px; max-width: 70%; margin: 5px 0;">
+                        ${message}
+                    </div>
+                    <small style="color: #666; margin-left: 10px;">You - Just now</small>
+                `;
+                
+                thread.insertBefore(messageDiv, thread.querySelector('.message-input'));
+                input.value = '';
+                
+                // Auto-scroll to bottom
+                thread.scrollTop = thread.scrollHeight;
+            }
+        }
+
+        // AI Chatbot
+        const chatWindow = document.getElementById('chatWindow');
+        const chatBody = document.getElementById('chatBody');
+        const userInput = document.getElementById('userInput');
+
+        // Sample AI Responses
+        const responses = {
+            'investment process': 'Our investment process follows 4 stages: Deal sourcing → Due diligence → Investment committee → Portfolio management.',
+            'team': 'We have 15 investment professionals across 3 offices in Johannesburg, Lagos, and Nairobi.',
+            'ai focus': 'We specialize in AI-driven infrastructure investments across Africa. Recent focus areas include edge computing and ML platforms.'
+        };
+
+        function toggleChat() {
+            chatWindow.style.display = chatWindow.style.display === 'none' || chatWindow.style.display === '' ? 'flex' : 'none';
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessageToChat('user', message);
+            
+            // Get AI response
+            const reply = responses[message.toLowerCase()] || 
+                         "I'm still learning! Let me connect you with a human advisor. Please email contact@convergencepartners.com.";
+            
+            // Add AI response
+            setTimeout(() => addMessageToChat('ai', reply), 1000);
+            
+            // Clear input
+            userInput.value = '';
+        }
+
+        function addMessageToChat(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.marginBottom = '15px';
+            msgDiv.innerHTML = `
+                <div style="background: ${sender === 'user' ? '#e0e0e0' : 'var(--cp-orange)'}; 
+                            color: ${sender === 'user' ? 'black' : 'white'}; 
+                            padding: 10px; 
+                            border-radius: 10px; 
+                            max-width: 70%; 
+                            margin: ${sender === 'user' ? '5px 0 5px auto' : '5px 0'}">
+                    ${text}
+                </div>
+            `;
+            chatBody.appendChild(msgDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Initial welcome message
+        setTimeout(() => {
+            if(chatWindow.style.display !== 'none') {
+                addMessageToChat('ai', 'Hello! I see you\'re on our homepage. Would you like to know more about our AI investment strategy?');
+            }
+        }, 2000);
+
+        // Initialize
+        window.addEventListener('load', () => {
+            // Check URL hash to show correct section
+            if(window.location.hash) {
+                showSection(window.location.hash.substring(1));
+            }
+            
+            // Hide chatbot initially
+            chatWindow.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
